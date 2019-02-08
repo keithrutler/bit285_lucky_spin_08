@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 namespace LuckySpin.Models
 {
     public class Player
@@ -14,5 +15,9 @@ namespace LuckySpin.Models
         [Range(1,100, ErrorMessage ="Enter a balance between 1 and 100")]
         [DataType(DataType.Currency)]
         public decimal Balance { get; set; }
+
+        //Each Player has a set of Spins, add these as an ICollection
+        //(To refresh your DB, delete the LuckySpin database after you make this change.)
+        public ICollection<Spin> Spins { get; set; }
     }
 }

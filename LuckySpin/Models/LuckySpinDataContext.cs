@@ -12,7 +12,7 @@ namespace LuckySpin.Models
 
         //Access to Collections representing DB tables
         public DbSet<Player> Players { get; set; }
-        public DbSet<Spin> Spins { get; set; }
+        //public DbSet<Spin> Spins { get; set; } 
 
 
         //On Visual Studio for Mac ONLY: use the references

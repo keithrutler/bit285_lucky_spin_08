@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore; //TODO: add the Microsoft.EntityFrameworkCore
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,7 @@ namespace LuckySpin.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-                return View();
+            return View();
         }
 
         [HttpPost]
@@ -54,57 +55,61 @@ namespace LuckySpin.Controllers
             };
             */
 
-            //TODO: only pass the player.Id to the SpinIt action
-            return RedirectToAction("SpinIt");
+            //pass the player.Id to the SpinIt action
+            return RedirectToAction("SpinIt", new { id = player.Id });
         }
 
         /***
          * SpinIt Action
-         **/  
-               
-         public IActionResult SpinIt() //TODO: change parameter to receive players Id
+         **/
+
+        public IActionResult SpinIt(int id) //change parameter to receive players Id
         {
             //TODO: Get the player with the given Id using the Players DbSet Find(Id) method
+            var currentPlayer = _dbc.Players.Include(p => p.Spins).Single(p => p.Id == id);
+            if (currentPlayer == null) { return View("Index"); }
 
-
-            //TODO: Build a new SpinItViewModel object with data from the Player and spin
+            //* Build a new SpinItViewModel object with data from the Player and spin
             SpinViewModel spinVM = new SpinViewModel()
             {
+                FirstName = currentPlayer.FirstName,
+                Balance = currentPlayer.Balance,
+                Luck = currentPlayer.Luck,
                 A = random.Next(1, 10),
                 B = random.Next(1, 10),
                 C = random.Next(1, 10)
-
             };
 
             spinVM.IsWinning = (spinVM.A == spinVM.Luck || spinVM.B == spinVM.Luck || spinVM.C == spinVM.Luck);
 
             //Prepare the ViewBag
-            if(spinVM.IsWinning)
+            if (spinVM.IsWinning)
                 ViewBag.Display = "block";
             else
                 ViewBag.Display = "none";
-            //TODO Add an item called ViewBag.PlayerId that assigns the LuckList link a route_id in the View
-            //      (see the <a href> for "Current Balance" in the SpinIt.cshtml file)
+            //Add an item called ViewBag.PlayerId that assigns the LuckList link a route_id in the View
+            // for the current player (see the <a href> for "Current Balance" in the SpinIt.cshtml file)
+            ViewBag.PlayerId = id;
 
-
-            //TODO CHANGE THIS to add the new Spin to the __Players__ spin list
-            _dbc.Spins.Add(new Spin() { IsWinning = spinVM.IsWinning });
+            //TODO: CHANGE THIS to add the new Spin to the __current player's__ Spins collection
+            var spin = new Spin { IsWinning = spinVM.IsWinning };
+            currentPlayer.Spins.Add(spin);
             _dbc.SaveChanges();
 
             return View("SpinIt", spinVM);
         }
 
         /***
-         * ListSpins Action
+         * LuckList Action
          **/
 
-         public IActionResult LuckList(int id)
+        public IActionResult LuckList(int id)
         {
-            //TODO: get all the spins for the given Player from the Database
+            //TODO: get the current player including their Spins list
+            var currentPlayer = _dbc.Players.Include(p => p.Spins).Single(p => p.Id == id);
 
-
-            //TODO: wrap each spin as an IEnumerable and send to the View
-            return View();
+            //TODO: Send the player's Spins to the View
+            return View(currentPlayer.Spins);
         }
 
     }

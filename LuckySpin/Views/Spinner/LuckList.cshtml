@@ -1,23 +1,21 @@
 ﻿@model IEnumerable<LuckySpin.Models.Spin> 
-<!-- TODO: Change this to the LuckListViewModel-->
+<!-- TODO: Notice that this Model is a Collection of Spin objects -->
 @{
     Layout = "_Layout";
-    int counter = 0;
+    int counter = 0; // to track the spin number
 }
 <h1>All Your Luck</h1>
 <table>
     <thead><tr>
         <th>Spin #</th>
         <th>Result</th>
-        <th>Balance</th>
     </tr></thead>
     <tbody>
-    @foreach( LuckySpin.Models.Spin spin in @Model ){
-        counter++;
+    @foreach (LuckySpin.Models.Spin spin in @Model) { // Go through each element of the collection
+        counter++; // track the spin number
         <tr>
             <td>@counter</td> 
-            <td>@spin.IsWinning?"Win":"Lose"</td> 
-            <td> </td>
+            <td>@(spin.IsWinning ? "Win" : "Lose")</td>
         </tr>
     }
     </tbody>

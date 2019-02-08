@@ -11,7 +11,7 @@
 <div class="balance">
      <a asp-action="LuckList" 
         asp-controller="Spinner" 
-        asp-route-id=""> <!-- TODO: Put the Player Id information here-->
+        asp-route-id="@ViewBag.PlayerId"> <!-- TODO: Put the ViewBag.Player Id information here-->
         Current Balance</a>:<span>$@Model.Balance</span>
 </div>
 <h2 style="display:@ViewBag.Display">@Model.FirstName, You Win!</h2>
