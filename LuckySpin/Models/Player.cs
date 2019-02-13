@@ -16,8 +16,7 @@ namespace LuckySpin.Models
         [DataType(DataType.Currency)]
         public decimal Balance { get; set; }
 
-        //Each Player has a set of Spins, add these as an ICollection
-        //(To refresh your DB, delete the LuckySpin database after you make this change.)
+        //Navigation Property: Player -> has -> Spins
         public ICollection<Spin> Spins { get; set; }
     }
 }

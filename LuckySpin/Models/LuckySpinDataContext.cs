@@ -7,7 +7,7 @@ namespace LuckySpin.Models
     {
         public LuckySpinDataContext(DbContextOptions<LuckySpinDataContext> options) : base(options) 
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
         //Access to Collections representing DB tables
@@ -21,7 +21,7 @@ namespace LuckySpin.Models
         // - https://docs.microsoft.com/en-us/sql/linux/quickstart-install-connect-docker?view=sql-server-2017
          protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-               optionsBuilder.UseSqlServer("Server=localhost,1433; Database=LuckySpin;User=SA; Password=Pa$$word!");
+               //optionsBuilder.UseSqlServer("Server=localhost,1433; Database=LuckySpin;User=SA; Password=Pa$$word!");
         }
     }
 }

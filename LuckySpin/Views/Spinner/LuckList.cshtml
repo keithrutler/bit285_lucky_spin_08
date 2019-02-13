@@ -1,22 +1,35 @@
-﻿@model IEnumerable<LuckySpin.Models.Spin> 
-<!-- TODO: Notice that this Model is a Collection of Spin objects -->
+﻿@model IEnumerable<LuckySpin.Models.Spin>
+<!-- TODO: Notice that this Model is an _IEnumerable_ collection of Spin objects -->
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     Layout = "_Layout";
     int counter = 0; // to track the spin number
 }
 <h1>All Your Luck</h1>
 <table>
-    <thead><tr>
-        <th>Spin #</th>
-        <th>Result</th>
-    </tr></thead>
-    <tbody>
-    @foreach (LuckySpin.Models.Spin spin in @Model) { // Go through each element of the collection
-        counter++; // track the spin number
+    <thead>
         <tr>
-            <td>@counter</td> 
-            <td>@(spin.IsWinning ? "Win" : "Lose")</td>
+            <th>Spin #</th>
+            <th>Result</th>
+            <th>Balance</th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (LuckySpin.Models.Spin spin in @Model)
+        { // Go through each element of the collection
+            counter++; // track the spin number
+            <tr>
+                <td>@counter</td>
+                <td>@(spin.IsWinning ? "Win" : "Lose")</td>
+                <!-- TODO: Add a cell that displays the Spin Balance-->
+            </tr>
+        }
     </tbody>
 </table>
+<!-- TODO: Add a link to the Start Over action -->
+<a asp-action=""
+   asp-controller=""
+   asp-route-id="">
+    <!-- Pass the player id (HINT: use a ViewBag property) -->
+    Start Over
+</a>
