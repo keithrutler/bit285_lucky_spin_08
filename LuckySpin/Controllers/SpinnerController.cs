@@ -71,12 +71,21 @@ namespace LuckySpin.Controllers
             spinVM.IsWinning = (spinVM.A == spinVM.Luck || spinVM.B == spinVM.Luck || spinVM.C == spinVM.Luck);
 
             //TODO : Add LuckySpin Game Logic (review flow chart for details)
-
-
+            if(spinVM.Balance < 0.50m)
+            {
+                return RedirectToAction("LuckList", id);
+            }
+            else
+            {
+                spinVM.Balance = spinVM.Balance - 0.50m;
+                if (spinVM.IsWinning)
+                    spinVM.Balance = spinVM.Balance + 1.00m;
+            }
             //Prepare the ViewBag
             if (spinVM.IsWinning)
+            {
                 ViewBag.Display = "block";
-            else
+            }
                 ViewBag.Display = "none";
             //Use current player id for the link to LinkList 
             //   (see the <a href> for "Current Balance" in the SpinIt.cshtml file)
@@ -111,7 +120,8 @@ namespace LuckySpin.Controllers
          public IActionResult StartOver(int id)
         {
             //TODO: Remove Player and Update the Datbase
-
+            //_dbc.Players.Remove(id);
+            _dbc.SaveChanges();
 
             return RedirectToAction("Index");
         }
